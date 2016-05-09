@@ -1,0 +1,178 @@
+C51 COMPILER V8.08   POMODORO51                                                            05/09/2016 13:11:27 PAGE 1   
+
+
+C51 COMPILER V8.08, COMPILATION OF MODULE POMODORO51
+OBJECT MODULE PLACED IN ..\bin\pomodoro51.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE pomodoro51.c BROWSE DEBUG OBJECTEXTEND OBJECT(..\bin\pomodoro51.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #define uchar unsigned char
+   4          #define uint  unsigned int
+   5          sbit we = P2^7;
+   6          sbit du = P2^6;
+   7          sbit beep = P2^3;
+   8          sbit LED1 = P1^0;
+   9          uchar counter;
+  10          uint time_counter = 1500;
+  11          
+  12          unsigned char code wei[]=
+  13          {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f}; //数码管各位的码表
+  14          
+  15          uchar code leddata[]={ 
+  16           
+  17                          0x3F,  //"0"
+  18                          0x06,  //"1"
+  19                          0x5B,  //"2"
+  20                          0x4F,  //"3"
+  21                          0x66,  //"4"
+  22                          0x6D,  //"5"
+  23                          0x7D,  //"6"
+  24                          0x07,  //"7"
+  25                          0x7F,  //"8"
+  26                          0x6F,  //"9"
+  27                          0x77,  //"A"
+  28                          0x7C,  //"B"
+  29                          0x39,  //"C"
+  30                          0x5E,  //"D"
+  31                          0x79,  //"E"
+  32                          0x71,  //"F"
+  33                          0x76,  //"H"
+  34                          0x38,  //"L"
+  35                          0x37,  //"n"
+  36                          0x3E,  //"u"
+  37                          0x73,  //"P"
+  38                          0x5C,  //"o"
+  39                          0x40,  //"-"
+  40                          0x00,  //熄灭
+  41                          0x00  //自定义
+  42           
+  43                                   };
+  44          
+  45          void delay(uint z)
+  46          {
+  47   1              uint x,y;
+  48   1              for(x = z; x > 0; x--)
+  49   1                      for(y = 114; y > 0 ; y--);
+  50   1      }
+  51          
+  52          void display(uint i)
+  53          {
+  54   1              uint qian, bai, shi, ge;
+  55   1              qian = i / 1000;
+C51 COMPILER V8.08   POMODORO51                                                            05/09/2016 13:11:27 PAGE 2   
+
+  56   1      
+  57   1              bai = i % 1000;
+  58   1              bai = bai / 100;
+  59   1      
+  60   1              shi = i % 100; 
+  61   1              shi = shi / 10;
+  62   1      
+  63   1              ge  = i % 10; //求余
+  64   1      
+  65   1              P0 = 0xff;
+  66   1              we = 1;
+  67   1              P0 = wei[0]; //点亮第一位数码管
+  68   1              we = 0;
+  69   1      
+  70   1              du = 1;
+  71   1              P0 = leddata[qian];
+  72   1              du = 0;
+  73   1              delay(1);
+  74   1      
+  75   1              P0 = 0xff;
+  76   1              we = 1;
+  77   1              P0 = wei[1];//点亮第二位数码管
+  78   1              we = 0;
+  79   1      
+  80   1              du = 1;
+  81   1              P0 = leddata[bai];
+  82   1              du = 0;
+  83   1              delay(1);       
+  84   1      
+  85   1              P0 = 0xff;
+  86   1              we = 1;
+  87   1              P0 = wei[2];//点亮第3w
+  88   1              we = 0;
+  89   1      
+  90   1              du = 1;
+  91   1              P0 = leddata[shi];
+  92   1              du = 0;
+  93   1              delay(1);
+  94   1      
+  95   1      
+  96   1          P0 = 0xff;
+  97   1              we = 1;
+  98   1              P0 = wei[3];//点亮第二位数码管
+  99   1              we = 0;
+ 100   1      
+ 101   1              du = 1;
+ 102   1              P0 = leddata[ge];
+ 103   1              du = 0;
+ 104   1              delay(1);
+ 105   1      }
+ 106          
+ 107          void Beeeeeep(uint times)
+ 108          {
+ 109   1        uint total = 0;
+ 110   1        while( total < times )
+ 111   1        {
+ 112   2                      total ++;
+ 113   2                      beep = ~beep;
+ 114   2                      delay(200);
+ 115   2                      beep = ~beep;
+ 116   2                      delay(800);
+ 117   2      
+C51 COMPILER V8.08   POMODORO51                                                            05/09/2016 13:11:27 PAGE 3   
+
+ 118   2        }
+ 119   1      
+ 120   1      }
+ 121          
+ 122          void main()
+ 123          {
+ 124   1              TMOD = 0x01;//定时器0 工作模式1 16模式定时器
+ 125   1              TH0 = (65536 - 46082)/256;
+ 126   1              TL0 = (65536 - 46082)%256; //定时50ms
+ 127   1              TR0 = 1;
+ 128   1      
+ 129   1              while(1)
+ 130   1              {
+ 131   2                      if(TF0 == 1)
+ 132   2                      {
+ 133   3                              TF0 = 0;
+ 134   3                              TH0 = 0x4b;
+ 135   3                              TL0 = 0xfe; //定时50ms
+ 136   3                              counter++;
+ 137   3                      }
+ 138   2                      if(counter == 20)
+ 139   2                      {
+ 140   3                              counter = 0;
+ 141   3                              //LED1 = ~LED1;
+ 142   3                              time_counter--;
+ 143   3                      }
+ 144   2      
+ 145   2                      if(time_counter == 0)
+ 146   2                      {
+ 147   3                              Beeeeeep(3);
+ 148   3                      }
+ 149   2                      display(time_counter);  
+ 150   2              }
+ 151   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    328    ----
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

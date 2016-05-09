@@ -22,3 +22,5 @@ Use 51 SCM to create a pomodoro
 [link](http://pan.baidu.com/s/1eSAtaDW)
 
 - Get the IDE
+- 
+uVision3 IDE
