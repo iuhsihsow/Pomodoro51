@@ -2,14 +2,17 @@
 Use 51 SCM to create a pomodoro
 
 
-## Introduction
-Use 51 SCM to create a pomodoro
 
 **DONE:**
 
+- Only beep for 3 times
+- auto switch between 15 min and 5 min. 
+
+	work clock will use the first 4 numbers and rest clock will use the last 4 numbers
+
 **TODO:**
 
-- Stop beep after 5 seconds
+
 - Add an pause button
 - Add an swithcing button for 15 min and 5 min 
 

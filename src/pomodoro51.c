@@ -8,6 +8,10 @@ sbit beep = P2^3;
 sbit LED1 = P1^0;
 uchar counter;
 uint time_counter = 1500;
+uint rest_counter = 300;
+uint status = 0; // 0 for  work, 1 for rest
+uint current_counter = 0;
+
 
 unsigned char code wei[]=
 {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f}; //数码管各位的码表
@@ -104,6 +108,61 @@ void display(uint i)
 	delay(1);
 }
 
+void displayLow(uint i)
+{
+	uint qian, bai, shi, ge;
+	qian = i / 1000;
+
+	bai = i % 1000;
+	bai = bai / 100;
+
+	shi = i % 100; 
+	shi = shi / 10;
+
+	ge  = i % 10; //求余
+
+	P0 = 0xff;
+	we = 1;
+	P0 = wei[4]; //点亮第一位数码管
+	we = 0;
+
+	du = 1;
+	P0 = leddata[qian];
+	du = 0;
+	delay(1);
+
+	P0 = 0xff;
+	we = 1;
+	P0 = wei[5];//点亮第二位数码管
+	we = 0;
+
+	du = 1;
+	P0 = leddata[bai];
+	du = 0;
+	delay(1);	
+
+	P0 = 0xff;
+	we = 1;
+	P0 = wei[6];//点亮第3w
+	we = 0;
+
+	du = 1;
+	P0 = leddata[shi];
+	du = 0;
+	delay(1);
+
+
+    P0 = 0xff;
+	we = 1;
+	P0 = wei[7];//点亮第二位数码管
+	we = 0;
+
+	du = 1;
+	P0 = leddata[ge];
+	du = 0;
+	delay(1);
+}
+
 void Beeeeeep(uint times)
 {
   uint total = 0;
@@ -125,6 +184,7 @@ void main()
 	TH0 = (65536 - 46082)/256;
 	TL0 = (65536 - 46082)%256; //定时50ms
 	TR0 = 1;
+	current_counter = time_counter;
 
 	while(1)
 	{
@@ -139,14 +199,24 @@ void main()
 		{
 			counter = 0;
 			//LED1 = ~LED1;
-			time_counter--;
+			current_counter--;
 		}
 
-		if(time_counter == 0)
+		if(current_counter == 0)
 		{
 			Beeeeeep(3);
-			break;
+			if(status == 1){
+			status = 0;}
+			else if(status == 0){
+			status = 1;}
+			if(status == 0){
+			current_counter = time_counter;}
+			else if(status ==  1){
+			current_counter = rest_counter;}
  		}
-		display(time_counter);	
+		if(status == 0){
+		display(current_counter);}
+		else if(status == 1){
+		displayLow(current_counter);}
 	}
 }
