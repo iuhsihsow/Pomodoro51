@@ -1,4 +1,4 @@
-C51 COMPILER V8.08   POMODORO51                                                            05/09/2016 13:11:27 PAGE 1   
+C51 COMPILER V8.08   POMODORO51                                                            05/10/2016 13:08:31 PAGE 1   
 
 
 C51 COMPILER V8.08, COMPILATION OF MODULE POMODORO51
@@ -62,7 +62,7 @@ line level    source
   53          {
   54   1              uint qian, bai, shi, ge;
   55   1              qian = i / 1000;
-C51 COMPILER V8.08   POMODORO51                                                            05/09/2016 13:11:27 PAGE 2   
+C51 COMPILER V8.08   POMODORO51                                                            05/10/2016 13:08:31 PAGE 2   
 
   56   1      
   57   1              bai = i % 1000;
@@ -126,7 +126,7 @@ line level    source
  115   2                      beep = ~beep;
  116   2                      delay(800);
  117   2      
-C51 COMPILER V8.08   POMODORO51                                                            05/09/2016 13:11:27 PAGE 3   
+C51 COMPILER V8.08   POMODORO51                                                            05/10/2016 13:08:31 PAGE 3   
 
  118   2        }
  119   1      
@@ -158,10 +158,11 @@ line level    source
  145   2                      if(time_counter == 0)
  146   2                      {
  147   3                              Beeeeeep(3);
- 148   3                      }
- 149   2                      display(time_counter);  
- 150   2              }
- 151   1      }
+ 148   3                              break;
+ 149   3                      }
+ 150   2                      display(time_counter);  
+ 151   2              }
+ 152   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

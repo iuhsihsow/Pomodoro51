@@ -145,6 +145,7 @@ void main()
 		if(time_counter == 0)
 		{
 			Beeeeeep(3);
+			break;
  		}
 		display(time_counter);	
 	}
