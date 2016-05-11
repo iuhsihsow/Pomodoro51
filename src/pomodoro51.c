@@ -11,6 +11,7 @@ uint time_counter = 1500;
 uint rest_counter = 300;
 uint status = 0; // 0 for  work, 1 for rest
 uint current_counter = 0;
+uint beep_times = 2;
 
 
 unsigned char code wei[]=
@@ -204,7 +205,7 @@ void main()
 
 		if(current_counter == 0)
 		{
-			Beeeeeep(3);
+			Beeeeeep(beep_times);
 			if(status == 1){
 			status = 0;}
 			else if(status == 0){
