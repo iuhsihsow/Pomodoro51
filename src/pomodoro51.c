@@ -7,7 +7,7 @@ sbit du = P2^6;
 sbit beep = P2^3;
 sbit LED1 = P1^0;
 uchar counter;
-uint time_counter = 1500;
+uint time_counter = 1080;
 uint rest_counter = 300;
 uint status = 0; // 0 for  work, 1 for rest
 uint current_counter = 0;

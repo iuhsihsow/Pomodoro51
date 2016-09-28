@@ -8,7 +8,7 @@ Use 51 SCM to create a pomodoro
 - Only beep for 3 times
 - auto switch between 15 min and 5 min. 
 
-	work clock will use the first 4 numbers and rest clock will use the last 4 numbers
+  work clock will use the first 4 numbers and rest clock will use the last 4 numbers
 
 **TODO:**
 
@@ -17,13 +17,12 @@ Use 51 SCM to create a pomodoro
 - Add an swithcing button for 15 min and 5 min 
 
 
-## Install
+## Steps
 
-- Get the driver
-
+- Get the driver, the name might be `ch341ser`
 - Get the Upload exe from Baidu pan:
-[link](http://pan.baidu.com/s/1eSAtaDW)
-
+  [link](http://pan.baidu.com/s/1eSAtaDW)
 - Get the IDE
-- 
-uVision3 IDE
+- uVision3 IDE
+- write and compile codes
+- use `stc-isp-15xx` to upload the binaries
